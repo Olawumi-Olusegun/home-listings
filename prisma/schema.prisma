@@ -41,3 +41,9 @@ model Home {
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
 }
+
+model Favourite {
+  id String @id @default(uuid())
+
+  
+}

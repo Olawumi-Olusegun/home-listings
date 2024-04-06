@@ -1,6 +1,6 @@
 "use server";
 
-import prismaDb from "@/lib/db";
+import prismaDb from "@/app/lib/db";
 import { redirect } from "next/navigation";
 import { supabase } from "./lib/supabase";
 
@@ -23,6 +23,14 @@ export const createHomeListing = async ({userId}: {userId: string}) => {
         return redirect(`/create/${data.id}/structure`);
     } else if (data.addedCategory && !data.addedDescription) {
         return redirect(`/create/${data.id}/description`);
+    } else if(data.addedCategory && data.addedDescription && !data.addedLocation) {
+        return redirect(`/create/${data.id}/location`);
+    } else if(data.addedCategory && data.addedDescription && data.addedLocation) {
+        const data = await prismaDb.home.create({
+            data: { userId }
+        });
+
+        return redirect(`/create/${data.id}/structure`);
     }
 }
 
@@ -77,4 +85,22 @@ export const createDescription = async (formData: FormData) => {
 
     return redirect(`/create/${homeId}/address`);
 
+}
+
+
+export const createLocation = async (formData: FormData) => {
+
+    const homeId = formData.get("homeId") as string;
+    const countryValue = formData.get("countryValue") as string;
+
+
+    const data = await prismaDb.home.update({
+        where: { id: homeId },
+        data: {
+            addedLocation: true,
+            country: countryValue,
+        }
+    });
+
+    return redirect("/");
 }
