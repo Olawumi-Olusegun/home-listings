@@ -23,7 +23,7 @@ model Home {
   id          String  @id @default(uuid())
   title       String?
   description String?
-  guest       String?
+  guests       String?
   bedrooms    String?
   bathrooms   String?
   country     String?
