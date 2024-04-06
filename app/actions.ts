@@ -3,6 +3,7 @@
 import prismaDb from "@/app/lib/db";
 import { redirect } from "next/navigation";
 import { supabase } from "./lib/supabase";
+import { revalidatePath } from "next/cache";
 
 
 export const createHomeListing = async ({userId}: {userId: string}) => {
@@ -103,4 +104,34 @@ export const createLocation = async (formData: FormData) => {
     });
 
     return redirect("/");
+}
+
+export const addToFavourite = async (formData: FormData) => {
+    const homeId = formData.get("homeId") as string;
+    const userId = formData.get("userId") as string;
+    const pathName = formData.get("pathName") as string;
+
+    const data = await prismaDb.favourite.create({
+        data: {
+            userId,
+            homeId
+        }
+    });
+
+    revalidatePath(pathName)
+}
+
+export const deleteToFavourite = async (formData: FormData) => {
+    const favouriteId = formData.get("favouriteId") as string;
+    const userId = formData.get("userId") as string;
+    const pathName = formData.get("pathName") as string;
+
+    const data = await prismaDb.favourite.delete({
+        where: {
+            id: favouriteId,
+            userId,
+        }
+    });
+
+    revalidatePath(pathName)
 }

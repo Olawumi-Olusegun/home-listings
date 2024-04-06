@@ -9,41 +9,49 @@ datasource db {
 }
 
 model User {
-  id           String  @id @unique
-  email        String  @unique
+  id           String      @id @unique
+  email        String      @unique
   firstname    String
   lastname     String
   profileImage String?
   home         Home[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  favourites   Favourite[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Home {
-  id          String  @id @default(uuid())
-  title       String?
-  description String?
+  id           String  @id @default(uuid())
+  title        String?
+  description  String?
   guests       String?
-  bedrooms    String?
-  bathrooms   String?
-  country     String?
-  photo       String?
-  price       Int?
+  bedrooms     String?
+  bathrooms    String?
+  country      String?
+  photo        String?
+  price        Int?
   categoryName String?
 
-  addedCategory Boolean @default(false)
+  addedCategory    Boolean @default(false)
   addedDescription Boolean @default(false)
-  addedLocation Boolean @default(false)
+  addedLocation    Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  favourites Favourite[]
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
 }
 
 model Favourite {
-  id String @id @default(uuid())
+  id     String  @id @default(uuid())
+  userId String?
+  homeId String?
+  user   User?   @relation(fields: [userId], references: [id])
+  home   Home?   @relation(fields: [homeId], references: [id])
 
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

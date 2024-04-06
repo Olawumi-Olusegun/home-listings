@@ -34,13 +34,13 @@ const UserNav = async () => {
                         </form>
                     </DropdownMenuItem>
                     <DropdownMenuItem className='cursor-pointer'>
-                        <Link href="/my-homes">My Listings</Link>
+                        <Link href="/homes">My Listings</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className='cursor-pointer'>
-                        <Link href="/my-favourites">My Favourites</Link>
+                        <Link href="/favourites">My Favourites</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className='cursor-pointer'>
-                        <Link href="/my-reservations">My Reservations</Link>
+                        <Link href="/reservations">My Reservations</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator />

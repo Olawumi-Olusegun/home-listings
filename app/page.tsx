@@ -5,13 +5,19 @@ import MapFilterItems from "./components/MapFilterItems";
 import prismaDb from "./lib/db";
 import SkeletonCard from "./components/SkeletonCard";
 import NoItem from "./components/NoItem";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+type getDataSearchParamsProps = {
+  searchParams?: { filter?: string }
+  userId: string | undefined;
+}
 
 type searchParamsProps = {
   searchParams?: { filter?: string }
 }
 
 
-const getData = async ({searchParams}: searchParamsProps) => {
+const getData = async ({searchParams, userId }: getDataSearchParamsProps) => {
   const data = await prismaDb.home.findMany({
     where: {
       addedCategory: true,
@@ -24,7 +30,10 @@ const getData = async ({searchParams}: searchParamsProps) => {
       id: true,
       price: true,
       description: true,
-      country: true
+      country: true,
+      favourites: {
+        where: { userId: userId ?? undefined }
+      }
     }
   });
 
@@ -48,7 +57,11 @@ export default function Home({searchParams}: searchParamsProps) {
 
 export const ShowItems = async ({searchParams}: searchParamsProps) => {
 
-  const data = await getData({searchParams: searchParams});
+  const { getUser } = getKindeServerSession();
+
+  const user = await getUser();
+
+  const data = await getData({searchParams: searchParams, userId: user?.id});
 
   if(!data || data.length === 0) {
     return <NoItem />
@@ -61,6 +74,11 @@ export const ShowItems = async ({searchParams}: searchParamsProps) => {
         price = {item.price as number}
         description = {item.description as string}
         location = {item.country as string}
+        userId={user?.id}
+        favouriteId={item.favourites[0]?.id}
+        isInFavouriteList={item.favourites.length > 0 }
+        homeId={item.id}
+        pathName="/"
      />)}
   </div>
   )
