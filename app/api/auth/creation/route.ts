@@ -30,5 +30,5 @@ noStore();
         });
     }
 
-    return NextResponse.redirect("http://localhost:3000");
+    return NextResponse.redirect("https://home-listings-pi.vercel.app");
 }
