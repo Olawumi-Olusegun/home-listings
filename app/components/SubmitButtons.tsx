@@ -55,3 +55,24 @@ export const DeleteFromFavourite = async () => {
     }
     </>
 }
+
+
+
+export const ReservationSubmitButton = async () => {
+    const {pending} = useFormStatus();
+
+    return <>
+        { pending 
+        ? (
+            <Button variant="outline" size="icon" className="bg-primary-foreground">
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
+            </Button>
+        )
+        : (
+            <Button className='w-full' type='submit'>
+                Make a Reservation
+            </Button>
+        )
+    }
+    </>
+}

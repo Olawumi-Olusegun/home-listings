@@ -8,12 +8,25 @@ import NoItem from "./components/NoItem";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 type getDataSearchParamsProps = {
-  searchParams?: { filter?: string }
+  searchParams?: { 
+    filter?: string;
+    country?: string; 
+    guest?: string; 
+    room?: string; 
+    bathroom?: string;  
+  },
   userId: string | undefined;
+
 }
 
 type searchParamsProps = {
-  searchParams?: { filter?: string }
+  searchParams?: { 
+    filter?: string;
+    country?: string; 
+    guest?: string; 
+    room?: string; 
+    bathroom?: string; 
+  }
 }
 
 
@@ -24,6 +37,10 @@ const getData = async ({searchParams, userId }: getDataSearchParamsProps) => {
       addedLocation: true,
       addedDescription: true,
       categoryName: searchParams?.filter ?? undefined,
+      country: searchParams?.country ?? undefined,
+      guests: searchParams?.guest ?? undefined,
+      bedrooms: searchParams?.room ?? undefined,
+      bathrooms: searchParams?.bathroom ?? undefined,
     },
     select: {
       photo: true,
