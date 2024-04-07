@@ -9,12 +9,12 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import ListingCard from "./components/ListingCard";
 
 type getDataSearchParamsProps = {
-  searchParams?: { 
+  searchParams?: {
     filter?: string;
-    country?: string; 
-    guest?: string; 
-    room?: string; 
-    bathroom?: string;  
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
   },
   userId: string | undefined;
 
@@ -31,8 +31,8 @@ type searchParamsProps = {
 }
 
 
+async function getData({searchParams, userId }: getDataSearchParamsProps){
 
-export const getData = async ({searchParams, userId }: getDataSearchParamsProps) => {
   noStore();
 
   const data = await prismaDb.home.findMany({
